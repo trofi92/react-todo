@@ -1,14 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MdCheckBoxOutlineBlank,
   MdCheckBox,
   MdRemoveCircleOutline,
+  MdBorderColor,
+  MdCheckCircle,
 } from "react-icons/md";
 import cn from "classnames";
 import "./TodoListItem.scss";
 
-export const TodoListItem = ({ todo, onRemove, onToggle }) => {
+export const TodoListItem = ({ todos, todo, setTodos, onRemove, onToggle }) => {
   const { id, text, checked } = todo;
+
+  const [edited, setEdited] = useState(false);
+  // 수정 상태 감지, defalut value = false
+
+  const [newText, setNewText] = useState(todo.text);
+  // 교체된 텍스트 감지, todo.text를 대체할 예정
+  const onEditInput = (e) => {
+    setNewText(e.target.value);
+  };
+  console.log(newText);
+
+  const onModify = () => {
+    setEdited(true);
+  };
+
+  const onConfirm = () => {
+    setTodos(
+      todos.map(
+        (item) => ({
+          ...item,
+          text: item.id === todo.id ? item.id && newText : item.text,
+        }),
+        [todos],
+      ),
+    );
+    setEdited(false);
+  };
+
+  console.log(todo);
+  //수정 완료 후 input을 닫고 다시 수정 가능토록 defalut state로 변경
+
   return (
     <div className="TodoListItem">
       <div className={cn("checkbox", { checked })} onClick={() => onToggle(id)}>
@@ -18,6 +51,26 @@ export const TodoListItem = ({ todo, onRemove, onToggle }) => {
       <div className="remove" onClick={() => onRemove(id)}>
         <MdRemoveCircleOutline />
       </div>
+
+      {edited ? (
+        <>
+          <form onSubmit={onConfirm}>
+            <button type="button" className="modify" onClick={onConfirm}>
+              <MdCheckCircle />
+            </button>
+            <input
+              onChange={onEditInput}
+              type="text"
+              placeholder="새로운 할 일을 입력해주세요"
+              required
+            ></input>
+          </form>
+        </>
+      ) : (
+        <button type="button" className="modify" onClick={onModify}>
+          <MdBorderColor />
+        </button>
+      )}
     </div>
   );
 };

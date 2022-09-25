@@ -39,6 +39,16 @@
       color: #ff8787;
     }
   }
+  .modify {
+    background-color: inherit;
+    color: rgb(114, 0, 254);
+    cursor: pointer;
+    border-radius: 25px;
+    border: 2px solid rgb(114, 0, 254);
+    &:hover {
+      color: rgb(180, 138, 232);
+    }
+  }
 
   // 엘리먼트 사이사이에 테두리를 넣어 줌
   & + & {

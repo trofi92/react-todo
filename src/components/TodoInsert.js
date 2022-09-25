@@ -17,7 +17,6 @@ export const TodoInsert = ({ onInsert }) => {
     [onInsert, value],
   );
 
-  console.log(value);
   return (
     <form className="TodoInsert" onSubmit={onSubmit}>
       <input
